@@ -1,19 +1,20 @@
 var fs = require('fs');
 var request = require('request');
 var colors = require('colors');
-var SunCalc = require('suncalc');
 var parseString = require('xml2js').parseString;
 var moment = require('moment');
 var async = require('async');
 var express = require('express');
 var config = require('./config');
-var today = {};
-var tomorrow = {};
-var tides = [];
-var weather;
-var sunrise = SunCalc.getTimes(Date.now(), "39.944285", "-74.072914").sunrise;
-var sunset  = SunCalc.getTimes(Date.now(), "39.944285", "-74.072914").sunset;
 
+
+var today = {};
+today.date = moment();
+var tomorrow = {};
+today.date = moment().add('day', 1);
+var tides = [];
+
+var weather;
 
 function getWeather(callback) {
 
@@ -26,7 +27,6 @@ function getWeather(callback) {
       console.log("weather data set");
       callback(null, JSON.parse(response.body));
     }
-    // console.log(weatherData.currently);
   });
 }
 
@@ -64,18 +64,31 @@ async.parallel([
   if (err) {
     console.log(err);
   }
+  //only the relevant parts of the tide data file XML
   var tideXML = results[0].datainfo.data[0].item;
-  // console.log(tideXML);
-  for (var i = 0; i < tideXML.length; i++){
-    console.log(i);
+  var tideEventDate;
+  for (i = 0; i < tideXML.length; i++) {
+    tideEventDate = moment(tideXML[i].date.toString(), "YYYY/MM/DD");
+    if (!tides[tideEventDate]) {
+      tides[tideEventDate] = [];
+    }
+    tides[tideEventDate].push({
+      time: tideXML[i].time.toString(),
+      highlow: tideXML[i].highlow.toString()
+    });
   }
   // console.log(tides);
-  tidesToday = tides[moment().format('YYYY/MM/DD')];
-  tidesTomorrow = tides[moment().add(1, 'day').format('YYYY/MM/DD')];
-
+  today.tides = tides[moment().format('YYYY/MM/DD')];
+  tomorrow.tides = tides[moment().add(1, 'day').format('YYYY/MM/DD')];
   weather = results[1];
   // console.log("tides:", tides);
-  // console.log("weather:", weather);
+  today.weather = weather.daily.data[0];
+  tomorrow.weather = weather.daily.data[1];
+  today.weather.time = moment.unix(today.weather.time);
+  today.sunrise = moment.unix(today.weather.sunriseTime);
+  today.sunset = moment.unix(today.weather.sunsetTime);
+  console.log(today);
+
 });
 
 
