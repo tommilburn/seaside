@@ -66,16 +66,8 @@ async.parallel([
   }
   var tideXML = results[0].datainfo.data[0].item;
   // console.log(tideXML);
-  for (i in tideXML) {
-    var date = tideXML[i].date.toString();
-
-    if (!tides[date]) {
-      tides[date] = [];
-    }
-    tides[date].push({
-      time: tideXML[i].time.toString(),
-      highlow: tideXML[i].highlow.toString()
-    });
+  for (var i = 0; i < tideXML.length; i++){
+    console.log(i);
   }
   // console.log(tides);
   tidesToday = tides[moment().format('YYYY/MM/DD')];
