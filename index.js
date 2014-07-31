@@ -6,24 +6,17 @@ var parseString = require('xml2js').parseString;
 var moment = require('moment');
 var async = require('async');
 var express = require('express');
-// var config = require('./config');
+var config = require('./config');
 
-var today = moment().format('YYYYMMDD');
-var tomorrow = moment().add(1, 'day').format('YYYYMMDD');
-
-console.log("starting...".green);
-console.log("today:", today, "tomorrow", tomorrow);
-
-var tides;
+var tides = [];
 var weather;
 var sunrise = SunCalc.getTimes(Date.now(), "39.944285", "-74.072914").sunrise;
 var sunset  = SunCalc.getTimes(Date.now(), "39.944285", "-74.072914").sunset;
 
 
 function getWeather(callback) {
-  var weatherUrl = "https://api.forecast.io/forecast/e675cc1df01046eac11598fdbeab7d18/39.944285,-74.072914";
 
-  return request(weatherUrl, function (error, response) {
+  return request(config.weatherUrl, function (error, response) {
     if (error) {
       console.log(error);
       return;
@@ -51,9 +44,10 @@ function getTides(callback) {
   });
 }
 
-function startServer(){
-
+function daysTides(day) {
+  return "test" + day;
 }
+
 async.parallel([
   function (callback) {
     getTides(callback);
@@ -62,12 +56,40 @@ async.parallel([
     getWeather(callback);
   }
 ], function (err, results) {
-  tides = results[0];
+  if (err) {
+    console.log(err);
+  }
+  var tideXML = results[0].datainfo.data[0].item;
+  // console.log(tideXML);
+  for (var x in tideXML){
+
+
+
+    var tideEvent = {};
+    var date = tideXML[x].date.toString();
+
+    if(!tides[date]){
+      tides[date] = [];
+    }
+    tideEvent.time = tideXML[x].time.toString();
+    tideEvent.highlow = tideXML[x].highlow.toString();
+    tides[date].push(tideEvent);
+  }
+  // console.log(tides);
+  console.log("today: \n", tides[moment().format('YYYY/MM/DD')]);
+  console.log("tomorrow: \n", tides[moment().add(1, 'day').format('YYYY/MM/DD')]);
+
   weather = results[1];
-  console.log("tides:", tides);
-  console.log("weather:", weather);
-  startServer();
+  // console.log("tides:", tides);
+  // console.log("weather:", weather);
 });
 
-// setTimeout(function () {console.log("data:", tides); }, 2000);
+
+
+var app = express();
+
+app.get('/', function (req, res) {
+  res.send(tides.datainfo.data[0].item);
+});
+app.listen(3000);
 
