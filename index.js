@@ -1,8 +1,12 @@
+var fs = require('fs');
 var request = require('request');
 var colors = require('colors');
 var SunCalc = require('suncalc');
 var parseString = require('xml2js').parseString;
 var moment = require('moment');
+var async = require('async');
+var express = require('express');
+// var config = require('./config');
 
 var today = moment().format('YYYYMMDD');
 var tomorrow = moment().add(1, 'day').format('YYYYMMDD');
@@ -16,50 +20,54 @@ var sunrise = SunCalc.getTimes(Date.now(), "39.944285", "-74.072914").sunrise;
 var sunset  = SunCalc.getTimes(Date.now(), "39.944285", "-74.072914").sunset;
 
 
-
-function getWeather() {
+function getWeather(callback) {
   var weatherUrl = "https://api.forecast.io/forecast/e675cc1df01046eac11598fdbeab7d18/39.944285,-74.072914";
 
-
-  request(weatherUrl, function (error, response) {
+  return request(weatherUrl, function (error, response) {
     if (error) {
       console.log(error);
       return;
     }
     if (response) {
       console.log("weather data set");
-      weather = (JSON.parse(response.body));
+      callback(null, JSON.parse(response.body));
     }
     // console.log(weatherData.currently);
   });
 }
 
-function getTides() {
-  var noaaUrl = "http://tidesandcurrents.noaa.gov/noaatidepredictions/NOAATidesFacade.jsp?datatype=XML&Stationid=8533071&text=datafiles%252F8533071%252F29072014%252F624%252F&bdate=" + today + "&timelength=daily&timeZone=2&dataUnits=1&interval=&edate=" + tomorrow + "&StationName=Seaside+Heights%2C+ocean&Stationid_=8533071&state=NJ&primary=Subordinate&datum=MLLW&timeUnits=2&ReferenceStationName=SANDY+HOOK+%28Fort+Hancock%29&ReferenceStation=8531680&HeightOffsetLow=*0.92&HeightOffsetHigh=*+0.92&TimeOffsetLow=-32&TimeOffsetHigh=-30&pageview=dayly&print_download=true&Threshold=&thresholdvalue=";
-  console.log(noaaUrl);
-  request(noaaUrl, function (error, response) {
-    if (error) {
-      console.log(error);
+function getTides(callback) {
+  return fs.readFile('/Users/K8/Sites/seaside/tides/tides2014.xml', function (err, data) {
+    if (err) {
+      console.log(err);
     }
-    if (response && response.statusCode !== 500 && response.body.indexOf("<?xml version=\"1.0\"") === 0) {
-      parseString(response.body, function (err, result) {
-        if (!err) {
-          console.log("tide data set");
-          tides = result.datainfo.data[0].item;
-        }
-      });
-    } else {
-      console.log("noaa server error");
-      getTides();
-    }
+    parseString(data, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      // console.log(result);
+      callback(null, result);
+    });
   });
 }
 
-function main() {
-  getWeather();
-  getTides();
-}
-main();
+function startServer(){
 
-setTimeout(function () {console.log("data:", tides, weather); }, 5000);
+}
+async.parallel([
+  function (callback) {
+    getTides(callback);
+  },
+  function (callback) {
+    getWeather(callback);
+  }
+], function (err, results) {
+  tides = results[0];
+  weather = results[1];
+  console.log("tides:", tides);
+  console.log("weather:", weather);
+  startServer();
+});
+
+// setTimeout(function () {console.log("data:", tides); }, 2000);
 
