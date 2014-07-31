@@ -7,7 +7,8 @@ var moment = require('moment');
 var async = require('async');
 var express = require('express');
 var config = require('./config');
-
+var today = {};
+var tomorrow = {};
 var tides = [];
 var weather;
 var sunrise = SunCalc.getTimes(Date.now(), "39.944285", "-74.072914").sunrise;
@@ -48,6 +49,10 @@ function daysTides(day) {
   return "test" + day;
 }
 
+var tidesToday;
+var tidesTomorrow;
+var i;
+
 async.parallel([
   function (callback) {
     getTides(callback);
@@ -61,23 +66,20 @@ async.parallel([
   }
   var tideXML = results[0].datainfo.data[0].item;
   // console.log(tideXML);
-  for (var x in tideXML){
+  for (i in tideXML) {
+    var date = tideXML[i].date.toString();
 
-
-
-    var tideEvent = {};
-    var date = tideXML[x].date.toString();
-
-    if(!tides[date]){
+    if (!tides[date]) {
       tides[date] = [];
     }
-    tideEvent.time = tideXML[x].time.toString();
-    tideEvent.highlow = tideXML[x].highlow.toString();
-    tides[date].push(tideEvent);
+    tides[date].push({
+      time: tideXML[i].time.toString(),
+      highlow: tideXML[i].highlow.toString()
+    });
   }
   // console.log(tides);
-  console.log("today: \n", tides[moment().format('YYYY/MM/DD')]);
-  console.log("tomorrow: \n", tides[moment().add(1, 'day').format('YYYY/MM/DD')]);
+  tidesToday = tides[moment().format('YYYY/MM/DD')];
+  tidesTomorrow = tides[moment().add(1, 'day').format('YYYY/MM/DD')];
 
   weather = results[1];
   // console.log("tides:", tides);
@@ -87,9 +89,10 @@ async.parallel([
 
 
 var app = express();
+console.log("app running on port 3000!");
 
 app.get('/', function (req, res) {
-  res.send(tides.datainfo.data[0].item);
+  res.send(tidesToday);
 });
 app.listen(3000);
 
