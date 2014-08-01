@@ -50,7 +50,7 @@ function daysTides(day) {
   return "test" + day;
 }
 
-function setToday(weather){
+function setToday(tides, weather){
   today.weather = weather.daily.data[0];
   tomorrow.weather = weather.daily.data[1];
   today.weather.time = moment.unix(today.weather.time);
