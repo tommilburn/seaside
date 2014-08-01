@@ -23,9 +23,14 @@
   },
   "homepage": "https://github.com/tommilburn/seaside",
   "dependencies": {
+    "async": "^0.9.0",
+    "cheerio": "^0.17.0",
+    "colors": "^0.6.2",
     "express": "^4.7.2",
     "gulp": "^3.8.6",
     "moment": "^2.7.0",
-    "suncalc": "^1.5.2"
+    "request": "^2.39.0",
+    "suncalc": "^1.5.2",
+    "xml2js": "^0.4.4"
   }
 }
