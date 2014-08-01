@@ -7,18 +7,21 @@
 			padding: 0;
 			margin: 0;
 		}
-		div, header{
+		.event, header, footer{
 			font-family: Helvetica;
 			text-align: center;
-			padding: 2em;
+			padding: 1em;
 			margin-bottom: 1em;
 		}
-		h1{
+		h1, h2{
 			font-size: 2em;
 			font-weight:100;
 		}
-		h1, h4{
+		h1, h2, h4{
 			margin: 0;
+		}
+		h4{
+			font-style: italic;
 		}
 		.sunset{
 			background-color: #ff566e;
@@ -30,7 +33,44 @@
 			background-color: #2691ff;
 		}
 		header{
-			background-color: #c5f9ff;
+			background-color: #c5ffff;
+			overflow:hidden;
+			font-style: italic;
+		}
+		.moon{
+			background-color: #999999;
+			height:4em;
+		}
+		.butt{
+			font-weight: 100;
+			margin-top: 1em;
+			float:left;
+			text-align: center;
+			width: 50%;
+			font-size: 1em;
+			padding:.75em 0;
+		}
+		.selected{
+			background-color: #8fcccc;
+			font-weight: 500;
+		}
+		.container{
+			max-width: 700px;
+			margin: 0 auto;
+			background-color: #fcfffa;
+		}
+		.weather{
+			border-top: 3px solid #cccccc;
+			border-bottom: 3px solid #cccccc;
+			padding: 2.5em;
+		}
+		.buttons{
+			width: 80%;
+			margin: 0 auto;
+		}
+		footer a{
+			text-decoration: none;
+			color: #cccccc;
 		}
 	</style>
 
@@ -38,31 +78,41 @@
 	<title>Seaside Heights Dashboard</title>
 </head>
 <body>
-	<header>
-		<h1>Seaside Weather Dashboard</h1>
-	</header>
-	<div class="weather">
-		<h1>78℉, Sunny</h1>
-	</div>
-	<div class="sunrise">
-		<h4>Sunrise</h4>
-		<h1>6:35 am</h1>
-		<h4>1 hour ago<h4>
-	</div>
-	<div class="tide">
-		<h4>High Tide</h4>
-		<h1>9:30am</h1>
-		<h4>in two hours</h4>
-	</div>
-	<div class="tide">
-		<h4>Low Tide</h4>
-		<h1>6:15pm</h1>
-		<h4>in five hours</h4>
-	</div>
-	<div class="sunset">
-		<h4>Sunset</h4>
-		<h1>9:00pm</h1>
-		<h4>in eight hours<h4>
+	<div class="container">
+		<header>
+			<h2>Seaside Heights Dashboard</h2>
+			<div class="buttons">
+				<div class="butt today selected">today</div>
+				<div class="butt tomorrow">tomorrow</div>
+			</div>
+			
+			<!-- <div class="butt more">more</div> -->
+		</header>
+		<div class="event weather">
+			<h2>78℉,</br> Sunny</h2>
+		</div>
+		<div class="event sunrise">
+			<h4>sunrise</h4>
+			<h2>6:35 am</h2>
+			<h4>1 hour ago<h4>
+		</div>
+		<div class="event tide">
+			<h4>high tide</h4>
+			<h2>9:30am</h2>
+			<h4>in two hours</h4>
+		</div>
+		<div class="event tide">
+			<h4>low tide</h4>
+			<h2>6:15pm</h2>
+			<h4>in five hours</h4>
+		</div>
+		<div class="event sunset">
+			<h4>sunset</h4>
+			<h2>9:00pm</h2>
+			<h4>in eight hours<h4>
+		</div>
+		<div class="event moon"></div>
+		<footer><a href="thomasmilburn.com">tom milburn</a></footer>
 	</div>
 </body>
 </html>
