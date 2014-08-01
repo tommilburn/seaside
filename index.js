@@ -10,6 +10,7 @@ var config = require('./config');
 
 var today = {};
 today.date = moment();
+today.events = [];
 var tomorrow = {};
 today.date = moment().add('day', 1);
 var tides = [];
@@ -49,6 +50,14 @@ function daysTides(day) {
   return "test" + day;
 }
 
+function setToday(weather){
+  today.weather = weather.daily.data[0];
+  tomorrow.weather = weather.daily.data[1];
+  today.weather.time = moment.unix(today.weather.time);
+  today.sunrise = moment.unix(today.weather.sunriseTime);
+  today.sunset = moment.unix(today.weather.sunsetTime);
+}
+
 var tidesToday;
 var tidesTomorrow;
 var i;
@@ -66,38 +75,32 @@ async.parallel([
   }
   //only the relevant parts of the tide data file XML
   var tideXML = results[0].datainfo.data[0].item;
-  var tideEventDate;
+  var tideEvent, tideEventTime;
   for (i = 0; i < tideXML.length; i++) {
-    tideEventDate = moment(tideXML[i].date.toString(), "YYYY/MM/DD");
-    if (!tides[tideEventDate]) {
-      tides[tideEventDate] = [];
-    }
-    tides[tideEventDate].push({
-      time: tideXML[i].time.toString(),
+    tideEvent = moment(tideXML[i].date.toString(), 'YYYY/MM/DD');
+    tideEventTime = moment(tideXML[i].time.toString(), 'hh:mm A');
+    tideEvent.hours(tideEventTime.hours());
+    tideEvent.minutes(tideEventTime.minutes());
+    tides.push({
+      time: tideEvent,
       highlow: tideXML[i].highlow.toString()
     });
   }
-  // console.log(tides);
+  console.log("tides".green, tides.length);
   today.tides = tides[moment().format('YYYY/MM/DD')];
   tomorrow.tides = tides[moment().add(1, 'day').format('YYYY/MM/DD')];
   weather = results[1];
   // console.log("tides:", tides);
-  today.weather = weather.daily.data[0];
-  tomorrow.weather = weather.daily.data[1];
-  today.weather.time = moment.unix(today.weather.time);
-  today.sunrise = moment.unix(today.weather.sunriseTime);
-  today.sunset = moment.unix(today.weather.sunsetTime);
-  console.log(today);
+  setToday(tides, weather);
+  // console.log(today);
 
 });
-
-
 
 var app = express();
 console.log("app running on port 3000!");
 
 app.get('/', function (req, res) {
-  res.send(tidesToday);
+  res.send(today);
 });
 app.listen(3000);
 
