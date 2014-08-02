@@ -9,8 +9,10 @@ var config = require('./config');
 
 
 var today = {};
+today.date = moment();
 today.events = [];
 var tomorrow = {};
+tomorrow.date = moment().add(1, 'day');
 tomorrow.events = [];
 var tides = [];
 var currentWeather;
@@ -24,7 +26,7 @@ function getWeather(callback) {
       return;
     }
     if (response) {
-      console.log("weather data set");
+      console.log("weather data set".blue);
       callback(null, JSON.parse(response.body));
     }
   });
@@ -39,7 +41,6 @@ function getTides(callback) {
       if (err) {
         throw err;
       }
-      // console.log(result);
       callback(null, result);
     });
   });
@@ -66,7 +67,7 @@ function setDay(day, tides, weather) {
     b = b.time.unix();
     return a<b ? -1 : a>b ? 1: 0;
   });
-  console.log(day);
+  // console.log(day);
 }
 
 var tidesToday;
@@ -93,10 +94,8 @@ async.parallel([
     tideEvent.hours(tideEventTime.hours());
     tideEvent.minutes(tideEventTime.minutes());
     if(tideXML[i].highlow.toString().valueOf() === 'H'){
-      console.log("high tide event")
       tideXML[i].highlow = 'high tide';
     } else {
-      console.log("low tide event")
       tideXML[i].highlow = 'low tide'
     }
     tides.push({
@@ -104,14 +103,12 @@ async.parallel([
       event: tideXML[i].highlow.toString()
     });
   }
-  console.log("tides".green, tides.length);
+  console.log("tide data set".green);
+  console.log((tides.length + " tide events").green);
   weather = results[1];
   currentWeather = weather.currently;
-  // console.log("tides:", tides);
   setDay(today, tides, weather);
   setDay(tomorrow, tides, weather);
-
-  // console.log(today);
 });
 
 var app = express();
@@ -121,9 +118,12 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.get('/', function (req, res) {
+  console.log("page load:\t/".yellow);
   res.render('index', {weather: today.weather, currentWeather: currentWeather, events: today.events, now: moment});
 });
 app.get('/tomorrow', function (req, res) {
+    console.log("page load:\t/tomorrow".yellow);
+
   res.render('index', {weather: tomorrow.weather, events: tomorrow.events, now: moment});
 });
 app.listen(3000);

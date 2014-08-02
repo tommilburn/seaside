@@ -2,6 +2,7 @@ doctype html(lang='en')
 head
     meta(name='viewport', content='width=device-width')
     meta(charset='UTF-8')
+    link(href='http://fonts.googleapis.com/css?family=Lato:100,300', rel='stylesheet', type='text/css')
     link(rel='stylesheet', href='/style.css')
 
     title Seaside Heights Dashboard
@@ -10,11 +11,12 @@ head
       header
         h2 Seaside Heights Dashboard
         .buttons
-          .butt.today.selected today
+          //.butt.today.selected today
           //.butt.tomorrow tomorrow
       .event.weather
         h2
-          currently #{parseInt(currentWeather.temperature)} ℉  
+          if currentWeather
+            currently #{parseInt(currentWeather.temperature)} ℉  
         p #{weather.summary}
       - each event in events
         if(event>now)
@@ -23,6 +25,5 @@ head
             =event.event
           h2
             =event.time.format('h:mm a')
-      .event.moon
       footer
-        a(href='thomasmilburn.com') tom milburn
+        a(href='http://thomasmilburn.com') tom milburn

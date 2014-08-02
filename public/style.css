@@ -3,13 +3,13 @@ body{
 	margin: 0;
 }
 .event, header, footer{
-	font-family: Helvetica;
+	font-family: Lato, helvetica, arial;
 	text-align: center;
 	padding: 1em;
 	margin-bottom: 1em;
 }
 h1, h2{
-	font-size: 2em;
+	font-size: 2.5em;
 	font-weight:100;
 }
 h1, h2, h4{
@@ -20,21 +20,44 @@ h4{
 }
 .sunset{
 	background-color: #ff566e;
+	background-image: -moz-linear-gradient(left, #ff7e2a, #ff566d);
+	background-image: -ms-linear-gradient(left, #ff7e2a, #ff566d);
+	background-image: -o-linear-gradient(left, #ff7e2a, #ff566d);
+	background-image: -webkit-gradient(linear, 
+	left top, right top, from(#ff7e2a), to(#ff566d));
+	background-image: -webkit-linear-gradient(left, #ff7e2a, #ff566d);
+
 }
 .sunrise{
 	background-color: #ff7e00;
+	background-image: -moz-linear-gradient(right, #ff7e2a, #ff566d);
+	background-image: -ms-linear-gradient(right, #ff7e2a, #ff566d);
+	background-image: -o-linear-gradient(right, #ff7e2a, #ff566d);
+	background-image: -webkit-gradient(linear, 
+		right top, left top, from(#ff7e2a), to(#ff566d));
+	background-image: -webkit-linear-gradient(right, #ff7e2a, #ff566d);
 }
-.tide{
-	background-color: #2691ff;
+.high{
+	background-image: -moz-linear-gradient(left, #1270b0, #31c3f7);
+	background-image: -ms-linear-gradient(left, #1270b0, #31c3f7);
+	background-image: -o-linear-gradient(left, #1270b0, #31c3f7);
+	background-image: -webkit-gradient(linear, 
+		left top, right top, from(#1270b0), to(#31c3f7));
+	background-image: -webkit-linear-gradient(left, #1270b0, #31c3f7);
+
+}
+.low{
+	background-image: -moz-linear-gradient(right, #1270b0, #31c3f7);
+	background-image: -ms-linear-gradient(right, #1270b0, #31c3f7);
+	background-image: -o-linear-gradient(right, #1270b0, #31c3f7);
+	background-image: -webkit-gradient(linear, 
+		right top, left top, from(#1270b0), to(#31c3f7));
+	background-image: -webkit-linear-gradient(right, #1270b0, #31c3f7);
 }
 header{
 	background-color: #c5ffff;
 	overflow:hidden;
 	font-style: italic;
-}
-.moon{
-	background-color: #999999;
-	height:4em;
 }
 .butt{
 	font-weight: 100;
@@ -42,12 +65,12 @@ header{
 	float:left;
 	text-align: center;
 	width: 50%;
-	font-size: 1em;
+	font-size: 1.25em;
 	padding:.75em 0;
 }
 .selected{
 	background-color: #8fcccc;
-	font-weight: 500;
+	font-weight: 300;
 }
 .container{
 	max-width: 700px;
