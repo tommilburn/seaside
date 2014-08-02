@@ -9,12 +9,11 @@ var config = require('./config');
 
 
 var today = {};
-today.date = moment();
 today.events = [];
 var tomorrow = {};
-today.date = moment().add('day', 1);
+tomorrow.events = [];
 var tides = [];
-
+var currentWeather;
 var weather;
 
 function getWeather(callback) {
@@ -32,7 +31,7 @@ function getWeather(callback) {
 }
 
 function getTides(callback) {
-  return fs.readFile('/Users/K8/Sites/seaside/tides/tides2014.xml', function (err, data) {
+  return fs.readFile(__dirname + '/tides/tides2014.xml', function (err, data) {
     if (err) {
       console.log(err);
     }
@@ -46,16 +45,28 @@ function getTides(callback) {
   });
 }
 
-function daysTides(day) {
-  return "test" + day;
-}
-
-function setToday(tides, weather){
-  today.weather = weather.daily.data[0];
-  tomorrow.weather = weather.daily.data[1];
-  today.weather.time = moment.unix(today.weather.time);
-  today.sunrise = moment.unix(today.weather.sunriseTime);
-  today.sunset = moment.unix(today.weather.sunsetTime);
+function setDay(day, tides, weather) {
+  day.weather = weather.daily.data[0];
+  day.weather.currently = weather.currently;
+  day.events.push({
+    time: moment.unix(weather.daily.data[0].sunriseTime),
+    event: "sunrise"
+  });
+  day.events.push({
+    time: moment.unix(weather.daily.data[0].sunsetTime),
+    event: "sunset"
+  });
+  for (i = 0; i < tides.length; i++) {
+    if (tides[i].time.format("YYYY DDDD") === moment().format("YYYY DDDD")) {
+      day.events.push(tides[i]);
+    }
+  }
+  day.events.sort(function(a, b){
+    a = a.time.unix();
+    b = b.time.unix();
+    return a<b ? -1 : a>b ? 1: 0;
+  });
+  console.log(day);
 }
 
 var tidesToday;
@@ -81,26 +92,39 @@ async.parallel([
     tideEventTime = moment(tideXML[i].time.toString(), 'hh:mm A');
     tideEvent.hours(tideEventTime.hours());
     tideEvent.minutes(tideEventTime.minutes());
+    if(tideXML[i].highlow.toString().valueOf() === 'H'){
+      console.log("high tide event")
+      tideXML[i].highlow = 'high tide';
+    } else {
+      console.log("low tide event")
+      tideXML[i].highlow = 'low tide'
+    }
     tides.push({
       time: tideEvent,
-      highlow: tideXML[i].highlow.toString()
+      event: tideXML[i].highlow.toString()
     });
   }
   console.log("tides".green, tides.length);
-  today.tides = tides[moment().format('YYYY/MM/DD')];
-  tomorrow.tides = tides[moment().add(1, 'day').format('YYYY/MM/DD')];
   weather = results[1];
+  currentWeather = weather.currently;
   // console.log("tides:", tides);
-  setToday(tides, weather);
-  // console.log(today);
+  setDay(today, tides, weather);
+  setDay(tomorrow, tides, weather);
 
+  // console.log(today);
 });
 
 var app = express();
+app.set('view engine', 'jade');
 console.log("app running on port 3000!");
+app.use(express.static(__dirname + '/public'));
+
 
 app.get('/', function (req, res) {
-  res.send(today);
+  res.render('index', {weather: today.weather, currentWeather: currentWeather, events: today.events, now: moment});
+});
+app.get('/tomorrow', function (req, res) {
+  res.render('index', {weather: tomorrow.weather, events: tomorrow.events, now: moment});
 });
 app.listen(3000);
 

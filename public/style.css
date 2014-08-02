@@ -1,0 +1,73 @@
+body{
+	padding: 0;
+	margin: 0;
+}
+.event, header, footer{
+	font-family: Helvetica;
+	text-align: center;
+	padding: 1em;
+	margin-bottom: 1em;
+}
+h1, h2{
+	font-size: 2em;
+	font-weight:100;
+}
+h1, h2, h4{
+	margin: 0;
+}
+h4{
+	font-style: italic;
+}
+.sunset{
+	background-color: #ff566e;
+}
+.sunrise{
+	background-color: #ff7e00;
+}
+.tide{
+	background-color: #2691ff;
+}
+header{
+	background-color: #c5ffff;
+	overflow:hidden;
+	font-style: italic;
+}
+.moon{
+	background-color: #999999;
+	height:4em;
+}
+.butt{
+	font-weight: 100;
+	margin-top: 1em;
+	float:left;
+	text-align: center;
+	width: 50%;
+	font-size: 1em;
+	padding:.75em 0;
+}
+.selected{
+	background-color: #8fcccc;
+	font-weight: 500;
+}
+.container{
+	max-width: 700px;
+	margin: 0 auto;
+	background-color: #fcfffa;
+}
+.weather{
+	border-top: 3px solid #cccccc;
+	border-bottom: 3px solid #cccccc;
+	padding: 2.5em;
+}
+.buttons{
+	width: 80%;
+	margin: 0 auto;
+}
+footer a{
+	text-decoration: none;
+	color: #cccccc;
+}
+p{
+	padding: 0;
+	margin: 0;
+}

@@ -1,0 +1,28 @@
+doctype html(lang='en')
+head
+    meta(name='viewport', content='width=device-width')
+    meta(charset='UTF-8')
+    link(rel='stylesheet', href='/style.css')
+
+    title Seaside Heights Dashboard
+  body
+    .container
+      header
+        h2 Seaside Heights Dashboard
+        .buttons
+          .butt.today.selected today
+          //.butt.tomorrow tomorrow
+      .event.weather
+        h2
+          currently #{parseInt(currentWeather.temperature)} ℉  
+        p #{weather.summary}
+      - each event in events
+        if(event>now)
+        .event(class=event.event)
+          h4 
+            =event.event
+          h2
+            =event.time.format('h:mm a')
+      .event.moon
+      footer
+        a(href='thomasmilburn.com') tom milburn
