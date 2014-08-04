@@ -18,6 +18,13 @@ var tides = [];
 var currentWeather;
 var weather;
 
+function setCurrently() {
+  console.log("setCurrently running");
+  getWeather(function(a, weather) {
+    console.log(weather.currently);
+  })
+}
+
 function getWeather(callback) {
 
   return request(config.weatherUrl, function (error, response) {
@@ -47,6 +54,7 @@ function getTides(callback) {
 }
 
 function setDay(day, tides, weather) {
+  if(day.date)
   day.weather = weather.daily.data[0];
   day.weather.currently = weather.currently;
   day.events.push({
@@ -128,3 +136,4 @@ app.get('/tomorrow', function (req, res) {
 });
 app.listen(3000);
 
+setInterval(function(){ return setCurrently();}, 5000);
