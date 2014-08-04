@@ -16,7 +16,8 @@ head
       .event.weather
         h2
           if currentWeather
-            currently #{parseInt(currentWeather.temperature)} ℉  
+            | currently
+            | #{parseInt(currentWeather.temperature)}&deg;F
         p #{weather.summary}
       - each event in events
         if(event>now)

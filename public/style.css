@@ -3,7 +3,7 @@ body{
 	margin: 0;
 }
 .event, header, footer{
-	font-family: Lato, helvetica, arial;
+	font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif; 
 	text-align: center;
 	padding: 1em;
 	margin-bottom: 1em;
