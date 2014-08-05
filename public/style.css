@@ -1,10 +1,17 @@
 body{
 	padding: 0;
 	margin: 0;
-}
-.event, header, footer{
 	font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif; 
 	text-align: center;
+
+}
+header{
+	padding-top: .5em;
+}
+footer{
+	padding: 1em;
+}
+.event{
 	padding: 1em;
 }
 h1, h2{
@@ -79,7 +86,7 @@ header{
 .weather{
 	border-top: 3px solid #cccccc;
 	border-bottom: 3px solid #cccccc;
-	padding: 1.5em;
+	padding: 1em;
 }
 .buttons{
 	width: 100%;

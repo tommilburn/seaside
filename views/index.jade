@@ -10,10 +10,12 @@ head
       header
         h2 Seaside Heights Dashboard
         .buttons
-          .butt.selected
-            a(href="/") today
-          .butt.selected
-            a(href="/tomorrow") tomorrow
+          a(href="/") 
+            .butt.selected
+              h4 today
+          a(href="/tomorrow")
+            .butt.selected
+              h4 tomorrow
       .event.weather
         p(style='white-space:pre;')
           if currentWeather
@@ -36,3 +38,5 @@ head
               =event.until
       footer
         a(href='http://thomasmilburn.com') tom milburn
+        br
+        a(href='http://github.com/tommilburn/seaside') github
