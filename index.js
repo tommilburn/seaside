@@ -135,7 +135,9 @@ app.use(function (req, res) {
     if (hoursDiff > 0) {
       today.events[i].until = "in " + hoursDiff + " hours";
     } else if (hoursDiff === 0) {
-      today.events[i].until = "in " + today.events[i].time.diff(now, 'minutes') + "minutes";
+      if(today.events[i].time.diff(now, 'minutes') > 0){
+        today.events[i].until = "in " + today.events[i].time.diff(now, 'minutes') + " minutes";
+      }
     }
   }
   console.log("page load:\t/".yellow);
