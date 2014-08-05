@@ -54,19 +54,18 @@ function getTides(callback) {
 }
 
 function setDay(day, tides, weather) {
-  if(day.date)
-  day.weather = weather.daily.data[0];
-  day.weather.currently = weather.currently;
+  var daysAway = day.date.dayOfYear() - moment().dayOfYear();
+  day.weather = weather.daily.data[daysAway];
   day.events.push({
-    time: moment.unix(weather.daily.data[0].sunriseTime),
+    time: moment.unix(weather.daily.data[daysAway].sunriseTime),
     event: "sunrise"
   });
   day.events.push({
-    time: moment.unix(weather.daily.data[0].sunsetTime),
+    time: moment.unix(weather.daily.data[daysAway].sunsetTime),
     event: "sunset"
   });
   for (i = 0; i < tides.length; i++) {
-    if (tides[i].time.format("YYYY DDDD") === moment().format("YYYY DDDD")) {
+    if (tides[i].time.format("YYYY DDDD") === day.date.format("YYYY DDDD")) {
       day.events.push(tides[i]);
     }
   }
@@ -75,7 +74,7 @@ function setDay(day, tides, weather) {
     b = b.time.unix();
     return a<b ? -1 : a>b ? 1: 0;
   });
-  // console.log(day);
+  console.log(day);
 }
 
 var tidesToday;
@@ -124,16 +123,25 @@ app.set('view engine', 'jade');
 console.log("app running on port 3000!");
 app.use(express.static(__dirname + '/public'));
 
-
-app.get('/', function (req, res) {
-  console.log("page load:\t/".yellow);
-  res.render('index', {weather: today.weather, currentWeather: currentWeather, events: today.events, now: moment});
-});
 app.get('/tomorrow', function (req, res) {
-    console.log("page load:\t/tomorrow".yellow);
-
-  res.render('index', {weather: tomorrow.weather, events: tomorrow.events, now: moment});
+  console.log("page load:\t/tomorrow".yellow);
+  res.render('index', {weather: tomorrow.weather, events: tomorrow.events, today: false, now: moment().unix()});
 });
+
+app.use(function (req, res) {
+  var now = moment();
+  for (i = 0; i<today.events.length; i++){
+    var hoursDiff = today.events[i].time.diff(now, 'hours');
+    if (hoursDiff > 0) {
+      today.events[i].until = "in " + hoursDiff + " hours";
+    } else if (hoursDiff === 0) {
+      today.events[i].until = "in " + today.events[i].time.diff(now, 'minutes') + "minutes";
+    }
+  }
+  console.log("page load:\t/".yellow);
+  res.render('index', {weather: today.weather, currentWeather: currentWeather, events: today.events, today: true, now: moment().unix()});
+});
+
 app.listen(3000);
 
-setInterval(function(){ return setCurrently();}, 5000);
+setInterval(function(){ return setCurrently();}, 100000);

@@ -4,27 +4,35 @@ head
   meta(charset='UTF-8')
   link(href='http://fonts.googleapis.com/css?family=Lato:100,300', rel='stylesheet', type='text/css')
   link(rel='stylesheet', href='/style.css')
-
   title Seaside Heights Dashboard
   body
     .container
       header
         h2 Seaside Heights Dashboard
         .buttons
-          //.butt.today.selected today
-          //.butt.tomorrow tomorrow
+          .butt.selected
+            a(href="/") today
+          .butt.selected
+            a(href="/tomorrow") tomorrow
       .event.weather
-        h2
+        p(style='white-space:pre;')
           if currentWeather
-            | currently
-            | #{parseInt(currentWeather.temperature)}&deg;F
+            h2 now: #{parseInt(currentWeather.temperature)}&deg;F
+            p humidity: #{parseInt(currentWeather.humidity*100)}% 
+            p precipitation: #{parseInt(currentWeather.precipProbability*100)}%
+            p winds: #{parseInt(currentWeather.windSpeed)}mph
         p #{weather.summary}
+        p #{parseInt(weather. apparentTemperatureMax)}&deg;F / #{parseInt(weather.apparentTemperatureMin)}&deg;F
+
       - each event in events
-        if(event>now)
-        .event(class=event.event)
+        - var eventClasses = (now<event.time.unix() ? event.event : event.event + " old")
+        .event(class=eventClasses)
           h4 
             =event.event
           h2
             =event.time.format('h:mm a')
+          if event.until
+            h4
+              =event.until
       footer
         a(href='http://thomasmilburn.com') tom milburn

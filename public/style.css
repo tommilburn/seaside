@@ -6,7 +6,6 @@ body{
 	font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif; 
 	text-align: center;
 	padding: 1em;
-	margin-bottom: 1em;
 }
 h1, h2{
 	font-size: 2.5em;
@@ -61,10 +60,10 @@ header{
 }
 .butt{
 	font-weight: 100;
-	margin-top: 1em;
+	margin: 1em 5%;
 	float:left;
 	text-align: center;
-	width: 50%;
+	width: 40%;
 	font-size: 1.25em;
 	padding:.75em 0;
 }
@@ -80,17 +79,23 @@ header{
 .weather{
 	border-top: 3px solid #cccccc;
 	border-bottom: 3px solid #cccccc;
-	padding: 2.5em;
+	padding: 1.5em;
 }
 .buttons{
 	width: 80%;
 	margin: 0 auto;
 }
-footer a{
+a, a.visited, a.hover{
 	text-decoration: none;
+	color: #000000;
+}
+footer a{
 	color: #cccccc;
 }
 p{
 	padding: 0;
 	margin: 0;
+}
+.old {
+	opacity: 0.5;
 }
