@@ -104,5 +104,5 @@ p{
 	margin: 0;
 }
 .old {
-	opacity: 0.5;
+	display: none;
 }
