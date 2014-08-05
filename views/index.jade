@@ -10,16 +10,24 @@ head
       header
         h2 Seaside Heights Dashboard
         .buttons
-          a(href="/") 
-            .butt.selected
-              h4 today
-          a(href="/tomorrow")
-            .butt.selected
-              h4 tomorrow
+            if today
+              a(href="/") 
+                .butt.selected
+                  h4 today
+              a(href="/tomorrow")  
+                .butt
+                  h4 tomorrow
+            else
+              a(href="/") 
+                .butt
+                  h4 today
+              a(href="/tomorrow")  
+                .butt.selected
+                  h4 tomorrow
       .event.weather
         p(style='white-space:pre;')
           if currentWeather
-            h2 now: #{parseInt(currentWeather.temperature)}&deg;F
+            p now: #{parseInt(currentWeather.temperature)}&deg;F
             p humidity: #{parseInt(currentWeather.humidity*100)}% 
             p precipitation: #{parseInt(currentWeather.precipProbability*100)}%
             p winds: #{parseInt(currentWeather.windSpeed)}mph

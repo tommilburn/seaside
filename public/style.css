@@ -66,6 +66,10 @@ header{
 	font-style: italic;
 }
 .butt{
+	-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+	box-sizing: border-box;
+	border: 1px solid #8feeee;
 	font-weight: 100;
 	margin: 1em 5%;
 	float:left;
@@ -87,6 +91,7 @@ header{
 	border-top: 3px solid #cccccc;
 	border-bottom: 3px solid #cccccc;
 	padding: 1em;
+	font-size: 1.5em;
 }
 .buttons{
 	width: 100%;
