@@ -1,0 +1,3 @@
+var weatherUrl = "https://api.forecast.io/forecast/YOUR_API_KEY/39.944285,-74.072914";
+module.exports.weatherUrl = weatherUrl;
+
