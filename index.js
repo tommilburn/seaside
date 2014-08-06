@@ -129,7 +129,6 @@ async.parallel([
 
 var app = express();
 app.set('view engine', 'jade');
-app.set('view options', { pretty: true });
 console.log('app running on port 3000!');
 app.use(express.static(__dirname + '/public'));
 

@@ -8,9 +8,6 @@ body{
 header{
 	padding-top: .5em;
 }
-footer{
-	padding: 1em;
-}
 .event{
 	padding: 1em;
 }
@@ -32,7 +29,6 @@ h4{
 	background-image: -webkit-gradient(linear, 
 	left top, right top, from(#ff7e2a), to(#ff566d));
 	background-image: -webkit-linear-gradient(left, #ff7e2a, #ff566d);
-
 }
 .sunrise{
 	background-color: #ff7e00;
@@ -69,13 +65,14 @@ header{
 	-moz-box-sizing: border-box; 
 	-webkit-box-sizing: border-box; 
 	box-sizing: border-box;
-	border: 1px solid #8feeee;
 	font-weight: 100;
 	margin: 1em 5%;
 	float:left;
 	text-align: center;
 	width: 40%;
 	font-size: 1.25em;
+}
+.butt h4{
 	padding:.75em 0;
 }
 .selected{
@@ -97,12 +94,22 @@ header{
 	width: 100%;
 	margin: 0 auto;
 }
+.buttons .butt{
+	border: 1px solid #8feeee;
+}
 a, a.visited, a.hover{
 	text-decoration: none;
 	color: #000000;
 }
-footer a{
-	color: #cccccc;
+footer a:hover{
+	color: #000000;
+}
+footer .butt{
+	transition: background-color 0.25s ease;
+	border: 1px solid #eeeeee;
+}
+footer .butt:hover{
+	background-color:#ff7e2a;
 }
 p{
 	padding: 0;
