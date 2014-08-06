@@ -8,6 +8,7 @@ head
   link(rel='stylesheet', href='/style.css')
   title Seaside Heights Dashboard
   body
+    h1 #{JSON.stringify()}
     .container
       header
         h2 Seaside Heights Dashboard
@@ -58,4 +59,5 @@ head
 
     ga('create', 'UA-53565204-1', 'auto');
     ga('send', 'pageview');
+    console.log('test');
 
