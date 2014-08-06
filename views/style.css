@@ -3,7 +3,6 @@ body{
 	margin: 0;
 	font-family: Lato, 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif; 
 	text-align: center;
-
 }
 header{
 	padding-top: .5em;
@@ -80,7 +79,8 @@ header{
 	font-weight: 300;
 }
 .container{
-	max-width: 700px;
+	max-width: 44em;
+	min-width: 14em;
 	margin: 0 auto;
 	background-color: #fcfffa;
 }
@@ -102,14 +102,16 @@ a, a.visited, a.hover{
 	color: #000000;
 }
 footer a:hover{
-	color: #000000;
+	color: #dddddd;
 }
 footer .butt{
 	transition: background-color 0.25s ease;
 	border: 1px solid #eeeeee;
+	color: #dddddd;
 }
 footer .butt:hover{
 	background-color:#ff7e2a;
+	color: #fff;
 }
 p{
 	padding: 0;
