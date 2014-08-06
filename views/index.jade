@@ -29,12 +29,11 @@ html(lang='en')
                 .butt.selected
                   h4 tomorrow
       .event.weather
-        p(style='white-space:pre;')
-          if currentWeather
-            p now: #{parseInt(currentWeather.temperature)}&deg;F
-            p humidity: #{parseInt(currentWeather.humidity*100)}% 
-            p precipitation: #{parseInt(currentWeather.precipProbability*100)}%
-            p winds: #{parseInt(currentWeather.windSpeed)}mph
+        if currentWeather
+          p now: #{parseInt(currentWeather.temperature)}&deg;F
+          p humidity: #{parseInt(currentWeather.humidity*100)}% 
+          p precipitation: #{parseInt(currentWeather.precipProbability*100)}%
+          p winds: #{parseInt(currentWeather.windSpeed)}mph
         p #{weather.summary}
         p #{parseInt(weather. apparentTemperatureMax)}&deg;F / #{parseInt(weather.apparentTemperatureMin)}&deg;F
 
@@ -60,5 +59,4 @@ html(lang='en')
 
     ga('create', 'UA-53565204-1', 'auto');
     ga('send', 'pageview');
-    console.log('test');
 
