@@ -7,6 +7,7 @@ var async = require('async');
 var express = require('express');
 var config = require('./config');
 var CronJob = require('cron').CronJob;
+var compress = require('compression');
 
 
 var today = {};
@@ -128,10 +129,10 @@ async.parallel([
 });
 
 var app = express();
+app.use(compress());  
 app.set('view engine', 'jade');
 console.log('app running on port 3000!');
 app.use(express.static(__dirname + '/public'));
-
 app.get('/tomorrow', function (req, res) {
   console.log('page load:\t/tomorrow'.yellow);
   res.render('index', {weather: tomorrow.weather, events: tomorrow.events, today: false, now: moment().unix()});
