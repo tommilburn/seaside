@@ -39,7 +39,8 @@ function setWeather(callback) {
 }
 
 function setTides(callback) {
-  fs.readFile(__dirname + '/tides/tides2014.xml', function (err, data) {
+  
+  fs.readFile(__dirname + '/tides/tides' + moment().format('YYYY') + '.xml', function (err, data) {
     if (err) {
       console.log(err);
     }

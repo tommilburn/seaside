@@ -18,7 +18,7 @@ h1, h2, h4{
 	margin: 0;
 }
 h4{
-	font-style: italic;
+	font-weight: normal;
 }
 .sunset{
 	background-color: #ff566e;
@@ -58,7 +58,6 @@ h4{
 header{
 	background-color: #c5ffff;
 	overflow:hidden;
-	font-style: italic;
 }
 .butt{
 	-moz-box-sizing: border-box; 
