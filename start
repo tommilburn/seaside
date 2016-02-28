@@ -1,0 +1,1 @@
+forever start -m 6 -l logs --minUptime 10000 --spinSleepTime 60000 index.js
